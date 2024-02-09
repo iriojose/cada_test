@@ -10,13 +10,13 @@ import (
 	"github.com/iriojose/cada_test/utils"
 )
 
-func NewServer(port string) {
+func NewServer() {
 	PORT := os.Getenv("PORT")
 
 	r := mux.NewRouter()
 
-	r.HandleFunc("/exchange-rate", utils.MakeHttpHandlerFunc(handlers.ExchangeRateHandler)).Methods("POST")
-	r.HandleFunc("/persons", utils.MakeHttpHandlerFunc(handlers.GetPersonsHandler)).Methods("POST")
+	r.HandleFunc("/exchange-rate", utils.MakeHttpHandlerFunc(handlers.ExchangeRateHandler)).Methods(http.MethodPost)
+	r.HandleFunc("/persons", utils.MakeHttpHandlerFunc(handlers.GetPersonsHandler)).Methods(http.MethodGet)
 
 	http.ListenAndServe(PORT, r)
 	fmt.Println("Server running on port", PORT)

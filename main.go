@@ -4,7 +4,7 @@ import "github.com/iriojose/cada_test/initializers"
 
 func Init() {
 	initializers.LoadEnv()
-	initializers.NewServer(":8000")
+	initializers.NewServer()
 }
 
 func main() {
