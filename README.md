@@ -156,12 +156,14 @@ git clone https://github.com/iriojose/cada_test.git
 cd cada_test
 ```
 3. Configure your .aws/credentials
+```bash
 [default]
 region=us-east-1
 aws_access_key_id=
 aws_secret_access_key=
+```
 
 4. Run docker compose
 ```bash
-docker-compose up
+go run main.go or docker-compose up
 ```
