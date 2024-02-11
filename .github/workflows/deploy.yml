@@ -1,0 +1,41 @@
+name: Go
+
+on:
+  push:
+    branches:
+      #- master
+      - staging
+
+jobs:
+
+  deploy_staging:
+    runs-on: ubuntu-latest
+    name: Deploy to staging
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.21.6 # O la versión de Go que necesites
+      - name: Build and deploy to staging
+        env:
+          FILEPATH: ${{ env.FILEPATH }}
+          PORT: ${{ env.PORT }}
+          SERVICE_A_URL: ${{ env.SERVICE_A_URL }}
+          SERVICE_B_URL: ${{ env.SERVICE_B_URL }}
+          LOCAL_URL: ${{ env.LOCAL_URL }}
+          SECRET_NAME_SERVICE_A: ${{ env.SECRET_NAME_SERVICE_A }}
+          SECRET_NAME_SERVICE_B: ${{ env.SECRET_NAME_SERVICE_B}}
+          AWS_REGION: ${{ secret.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secret.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secret.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          go build -o myapp
+
+      #- name: Deploy to Heroku
+      #  uses: akhileshns/heroku-deploy@v3.12.12
+      #  with:
+      #    heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+      #    heroku_app_name: "nombre-de-tu-aplicacion-en-heroku"
+      #    file_path: "./myapp" # Ruta al ejecutable compilado
