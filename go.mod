@@ -7,7 +7,11 @@ require (
 	github.com/joho/godotenv v1.5.1
 )
 
-require github.com/davecgh/go-spew v1.1.1 // indirect
+require (
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
+	golang.org/x/tools v0.17.0 // indirect
+)
 
 require (
 	github.com/aws/aws-sdk-go v1.50.12
