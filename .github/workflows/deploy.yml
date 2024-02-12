@@ -19,10 +19,10 @@ jobs:
         with:
           go-version: 1.21.6 # O la versión de Go que necesites
 
-      - name: Install linter
-        run: go get -u golang.org/x/lint/golint
+      #- name: Install linter //dosent work for now
+      #  run: go get -u golang.org/x/lint/golint
 
-      - name: Lint code and get envs
+      - name: Run tests and get envs
         env:
           FILEPATH: ${{ env.FILEPATH }}
           PORT: ${{ env.PORT }}
@@ -34,9 +34,6 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: golint ./...
-
-      - name: Run tests
         run: go test ./...
 
   deploy_staging:
