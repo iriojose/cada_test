@@ -42,7 +42,6 @@ jobs:
         run: go test ./...
 
   deploy_staging: Deploy to staging
-    needs: build
     runs-on: ubuntu-latest
     if: always() && github.event_name == 'push' && github.ref == 'refs/heads/staging' && success()
     steps:
