@@ -10,7 +10,7 @@ jobs:
 
   validate_staging:
     runs-on: ubuntu-latest
-    name: Deploy to staging
+    name: validate staging
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -41,7 +41,8 @@ jobs:
       - name: Run tests
         run: go test ./...
 
-  deploy_staging: Deploy to staging
+  deploy_staging:
+    name: Deploy to staging
     runs-on: ubuntu-latest
     if: always() && github.event_name == 'push' && github.ref == 'refs/heads/staging' && success()
     steps:
