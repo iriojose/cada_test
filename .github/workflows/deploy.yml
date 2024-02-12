@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  deploy_staging:
+  validate_staging:
     runs-on: ubuntu-latest
     name: Deploy to staging
     steps:
@@ -18,7 +18,11 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: 1.21.6 # O la versión de Go que necesites
-      - name: Build and deploy to staging
+
+      - name: Install linter
+        run: go install golang.org/x/lint/golint
+
+      - name: get envs
         env:
           FILEPATH: ${{ env.FILEPATH }}
           PORT: ${{ env.PORT }}
@@ -30,6 +34,26 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Lint code
+        run: golint ./...
+
+      - name: Run tests
+        run: go test ./...
+
+  deploy_staging: Deploy to staging
+    needs: build
+    runs-on: ubuntu-latest
+    if: always() && github.event_name == 'push' && github.ref == 'refs/heads/staging' && success()
+    steps:
+      - name: Approval
+        uses: schneegans/approvals-action@v2
+        with:
+          message: Please approve deployment
+          reviewers: iriojose
+          token: ${{ secrets.TOKEN_GITHUB }}
+
+      - name: Deploy
         run: |
           go build -o myapp
 
