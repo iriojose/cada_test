@@ -6,22 +6,22 @@ GOTEST=$(GOCMD) test
 GOGET=$(GOCMD) get
 
 # Name of the executable
-BINARY_NAME=myapp
+BINARY_NAME=api
 
 all: test build
 
 build:
-    $(GOBUILD) -o $(BINARY_NAME)
+	$(GOBUILD) -o ./bin/ ./cmd/$(BINARY_NAME)
 
-clean:
-    $(GOCLEAN)
-    rm -f $(BINARY_NAME)
+clean:	
+	$(GOCLEAN)
+		rm -f ./bin/$(BINARY_NAME)
 
 test:
-    $(GOTEST) -v ./...
+	$(GOTEST) -v ./...
 
-run: build
-    ./$(BINARY_NAME)
+run:
+	./bin/$(BINARY_NAME)
 
 deps:
-    $(GOGET) ./...
+	$(GOGET) ./...
